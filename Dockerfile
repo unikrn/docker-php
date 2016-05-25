@@ -1,4 +1,4 @@
-FROM php:5.6-fpm
+FROM php:5.5-fpm
 
 RUN apt-get update && apt-get install -y \
         libfreetype6-dev \
@@ -28,5 +28,6 @@ RUN curl -fsSL 'https://xcache.lighttpd.net/pub/Releases/3.2.0/xcache-3.2.0.tar.
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
 ADD unikrn-php.ini /usr/local/etc/php/conf.d/
+ADD zzz-unikrn-fpm.conf /usr/local/etc/php-fpm.d/
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
