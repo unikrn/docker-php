@@ -2,7 +2,7 @@
 #http://unix.stackexchange.com/questions/55558/how-can-i-kill-and-wait-for-background-processes-to-finish-in-a-shell-script-whe
 custom()
 {
-    run 'nohup' '--' '/usr/bin/pydbgpproxy' '-i 0.0.0.0:9001' '-d 0.0.0.0:8000'
+    run 'tcprelays' '--relayPort' '9001' '--servicePort' '8000'
     run 'php-fpm'
     func()
     {
