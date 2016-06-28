@@ -39,6 +39,7 @@ RUN curl -fsSL 'https://xcache.lighttpd.net/pub/Releases/3.2.0/xcache-3.2.0.tar.
     && rm xcache.tar.gz \
     && ( \
         cd xcache \
+        && cp -vr htdocs /var/www/ \
         && phpize \
         && ./configure --enable-xcache \
         && make -j$(nproc) \
@@ -60,6 +61,8 @@ EXPOSE 9000
 EXPOSE 9001
 
 COPY run.sh /run.sh
+COPY install_tools.sh /install_tools.sh
+
 RUN chmod u+rwx /run.sh
 
 ENTRYPOINT [ "/run.sh" ]
