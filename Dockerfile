@@ -11,6 +11,7 @@ RUN echo deb http://httpredir.debian.org/debian stable main contrib >/etc/apt/so
         python \
         nodejs \
         npm \
+        expect-dev \
         geoip-bin geoip-database-contrib \
     && docker-php-ext-install -j$(nproc) iconv mcrypt \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
@@ -38,23 +39,22 @@ RUN pecl install xdebug && docker-php-ext-enable xdebug
 RUN pecl install geoip && docker-php-ext-enable geoip \
     && echo "<?php var_dump(geoip_record_by_name('141.30.225.1')); " | php  | grep Dresden -cq || (echo "Geo not working" && exit 1)
 
+COPY *.sh /
+RUN chmod u+rwx /*.sh
+
 RUN ln -s /usr/bin/nodejs /usr/bin/node \
+    && npm set registry https://npm.bsolut.com \
+    && npm config set always-auth true \
+    && /npm-exp.sh "npm login " docker insecure docker@unikrn.com \
     && npm install node-tcp-relay pm2 less grunt gulp -g
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-EXPOSE 9000
-EXPOSE 9001
-EXPOSE 9002
+EXPOSE 9000 9001 9002
 
 ADD zzz-unikrn-fpm.conf /usr/local/etc/php-fpm.d/
 ADD unikrn-php.ini /usr/local/etc/php/conf.d/
 ADD unikrn-xdebug.ini /usr/local/etc/php/conf.d/
-
-COPY run.sh /run.sh
-COPY install_tools.sh /install_tools.sh
-
-RUN chmod u+rwx /*.sh
 
 ENTRYPOINT [ "/run.sh" ]
 
