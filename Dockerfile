@@ -1,17 +1,20 @@
 FROM php:5.5-fpm
 
-RUN apt-get update && apt-get install -y \
+RUN echo deb http://httpredir.debian.org/debian stable main contrib >/etc/apt/sources.list \
+    && DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libpng12-dev \
         zlib1g-dev \
+        libgeoip-dev \
         python \
         nodejs \
         npm \
+        geoip-bin geoip-database-contrib \
     && docker-php-ext-install -j$(nproc) iconv mcrypt \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd pdo_mysql mysql mysqli bcmath mbstring zip
+    && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mysql mysqli bcmath mbstring zip
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
@@ -30,8 +33,10 @@ RUN curl -fsSL 'https://xcache.lighttpd.net/pub/Releases/3.2.0/xcache-3.2.0.tar.
     && rm -r xcache \
     && docker-php-ext-enable xcache
 
-RUN pecl install xdebug
-RUN docker-php-ext-enable xdebug
+RUN pecl install xdebug && docker-php-ext-enable xdebug
+
+RUN pecl install geoip && docker-php-ext-enable geoip \
+    && echo "<?php var_dump(geoip_record_by_name('141.30.225.1')); " | php  | grep Dresden -cq || (echo "Geo not working" && exit 1)
 
 RUN ln -s /usr/bin/nodejs /usr/bin/node \
     && npm install node-tcp-relay -g
