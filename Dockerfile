@@ -39,7 +39,7 @@ RUN pecl install geoip && docker-php-ext-enable geoip \
     && echo "<?php var_dump(geoip_record_by_name('141.30.225.1')); " | php  | grep Dresden -cq || (echo "Geo not working" && exit 1)
 
 RUN ln -s /usr/bin/nodejs /usr/bin/node \
-    && npm install node-tcp-relay -g
+    && npm install node-tcp-relay pm2 less grunt gulp -g
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
