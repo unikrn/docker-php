@@ -59,7 +59,7 @@ ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
 
-EXPOSE 9000 9001
+EXPOSE 9000 9001 9002
 
 ADD zzz-unikrn-fpm.conf /usr/local/etc/php-fpm.d/
 ADD unikrn-php.ini /usr/local/etc/php/conf.d/
