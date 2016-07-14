@@ -1,6 +1,7 @@
 # Docker for PHP Development
 - Running a container will spawn an nginx at 9000 and a xdebug relay at 9001.
 - nginx is running from /var/www/html
+- Help https://github.com/wsargent/docker-cheat-sheet
 
 ### XDEBUG Forward
 ```
