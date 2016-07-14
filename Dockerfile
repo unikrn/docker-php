@@ -1,7 +1,9 @@
 FROM php:5.5-fpm
 
+ENV TERM=xterm
+
 RUN echo deb http://httpredir.debian.org/debian stable main contrib >/etc/apt/sources.list \
-    && DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y \
+    && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
@@ -9,8 +11,7 @@ RUN echo deb http://httpredir.debian.org/debian stable main contrib >/etc/apt/so
         zlib1g-dev \
         libgeoip-dev \
         python \
-        nodejs \
-        npm \
+        locales \
         expect-dev \
         geoip-bin geoip-database-contrib \
     && docker-php-ext-install -j$(nproc) iconv mcrypt \
@@ -42,15 +43,22 @@ RUN pecl install geoip && docker-php-ext-enable geoip \
 COPY *.sh /
 RUN chmod u+rwx /*.sh
 
-RUN ln -s /usr/bin/nodejs /usr/bin/node \
-    && npm set registry https://npm.bsolut.com \
+RUN curl -sL https://deb.nodesource.com/setup_4.x | bash - && apt-get install -y nodejs
+
+RUN npm set registry https://npm.bsolut.com \
     && npm config set always-auth true \
     && /npm-exp.sh "npm login " docker insecure docker@unikrn.com \
     && npm install node-tcp-relay pm2 less grunt gulp -g
 
+RUN echo -e "de_DE.UTF-8 UTF-8\nde_DE ISO-8859-1\nde_DE@euro ISO-8859-15\nen_US.UTF-8 UTF-8" >> /etc/locale.gen
+RUN locale-gen && /usr/sbin/update-locale LANG=en_US.UTF-8
+ENV LANG en_US.UTF-8
+ENV LANGUAGE en_US.UTF-8
+ENV LC_ALL en_US.UTF-8
+
 RUN apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-EXPOSE 9000 9001 9002
+EXPOSE 9000 9001
 
 ADD zzz-unikrn-fpm.conf /usr/local/etc/php-fpm.d/
 ADD unikrn-php.ini /usr/local/etc/php/conf.d/

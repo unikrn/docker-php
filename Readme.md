@@ -1,14 +1,19 @@
-https://hub.docker.com/r/unikrn/php/builds/
-http://code.activestate.com/komodo/remotedebugging/
-https://confluence.jetbrains.com/display/PhpStorm/Multi-user+debugging+in+PhpStorm+with+Xdebug+and+DBGp+proxy
-https://hub.docker.com/r/unikrn/php/
+# Docker for PHP Development
+- Running a container will spawn an nginx at 9000 and a xdebug relay at 9001.
+- nginx is running from /var/www/html
 
+### XDEBUG Forward
 ```
-docker build -t unikrn/php .
-docker push 
+docker run -d -p 9001:9001 -p 9000:9000 unikrn/php
+npm install -g tcprelayc
+tcprelayc --host localhost --port 9000 --relayHost localhost --relayPort 9001 --numConn 10 
 ```
 
-docker tag xxx  unikrn/php 
+### Cheat Sheet
+- build locally `docker build -t unikrn/php .`
+- tag `docker tag xxx  unikrn/php`
 
-
-docker run -p 9002:9002 -p 9001:9001 -p 9000:9000 -v /Users/xxxx/php:/var/www/html yyyyyyy
+# Run 
+```
+docker run -p 9001:9001 -p 9000:9000 -v /Users/xxxx/php:/var/www/html yyyyyyy
+```
