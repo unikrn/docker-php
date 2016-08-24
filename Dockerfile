@@ -16,6 +16,8 @@ RUN echo deb http://httpredir.debian.org/debian stable main contrib >/etc/apt/so
         expect-dev \
         geoip-bin geoip-database-contrib \
         nodejs \
+        libgmp-dev \
+    && ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
     && docker-php-ext-install -j$(nproc) iconv mcrypt \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
     && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mysql mysqli bcmath mbstring zip gmp \
