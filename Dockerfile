@@ -16,10 +16,9 @@ RUN echo deb http://httpredir.debian.org/debian stable main contrib >/etc/apt/so
         expect-dev \
         geoip-bin geoip-database-contrib \
         nodejs \
-        php5-gmp \
     && docker-php-ext-install -j$(nproc) iconv mcrypt \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mysql mysqli bcmath mbstring zip \
+    && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mysql mysqli bcmath mbstring zip gmp \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
