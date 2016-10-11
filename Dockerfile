@@ -17,6 +17,7 @@ RUN echo deb http://httpredir.debian.org/debian stable main contrib >/etc/apt/so
         geoip-bin geoip-database-contrib \
         nodejs \
         libgmp-dev \
+        redis-server redis-tools \
     && ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
     && docker-php-ext-install -j$(nproc) iconv mcrypt \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
