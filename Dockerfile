@@ -75,7 +75,7 @@ ADD zzz-unikrn-fpm.conf /usr/local/etc/php-fpm.d/
 ADD unikrn-php.ini /usr/local/etc/php/conf.d/
 ADD unikrn-xdebug.ini /usr/local/etc/php/conf.d/
 ADD mysql-tmpfs.cnf /etc/mysql/conf.d/mysql-tmpfs.cnf
-RUN chmod 664 /etc/mysql/conf.d/mysql-tmpfs.cnf
+RUN chmod go-w /etc/mysql/conf.d/mysql-tmpfs.cnf && chown mysql /etc/mysql/conf.d/mysql-tmpfs.cnf
 
 ENTRYPOINT [ "/run.sh" ]
 
