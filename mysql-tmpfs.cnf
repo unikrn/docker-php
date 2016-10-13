@@ -16,3 +16,4 @@ innodb_large_prefix
 innodb_support_xa = 0
 
 datadir	= /dev/shm/mysql
+sql_mode = NO_ENGINE_SUBSTITUTION

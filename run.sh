@@ -4,6 +4,9 @@ mysql_install_db --datadir /dev/shm/mysql
 /etc/init.d/mysql start
 mysql -e "CREATE DATABASE test"
 
+echo "starting redis"
+/etc/init.d/redis-server start
+
 #http://unix.stackexchange.com/questions/55558/how-can-i-kill-and-wait-for-background-processes-to-finish-in-a-shell-script-whe
 custom()
 {
