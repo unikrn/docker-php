@@ -53,9 +53,6 @@ RUN pecl install geoip && docker-php-ext-enable geoip \
     && echo "<?php var_dump(geoip_record_by_name('141.30.225.1')); " | php  | grep Dresden -cq || (echo "Geo not working" && exit 1) \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-ADD mysql-tmpfs.cnf /etc/mysql/conf.d/mysql-tmpfs
-RUN chmod 664 /etc/mysql/conf.d/mysql-tmpfs
-
 COPY *.sh /
 RUN chmod u+rwx /*.sh
 
@@ -77,6 +74,8 @@ EXPOSE 9000 9001 9002 6379
 ADD zzz-unikrn-fpm.conf /usr/local/etc/php-fpm.d/
 ADD unikrn-php.ini /usr/local/etc/php/conf.d/
 ADD unikrn-xdebug.ini /usr/local/etc/php/conf.d/
+ADD mysql-tmpfs.cnf /etc/mysql/conf.d/mysql-tmpfs
+RUN chmod 664 /etc/mysql/conf.d/mysql-tmpfs
 
 ENTRYPOINT [ "/run.sh" ]
 
