@@ -74,8 +74,8 @@ EXPOSE 9000 9001 9002 6379
 ADD zzz-unikrn-fpm.conf /usr/local/etc/php-fpm.d/
 ADD unikrn-php.ini /usr/local/etc/php/conf.d/
 ADD unikrn-xdebug.ini /usr/local/etc/php/conf.d/
-ADD mysql-tmpfs.cnf /etc/mysql/conf.d/mysql-tmpfs
-RUN chmod 664 /etc/mysql/conf.d/mysql-tmpfs
+ADD mysql-tmpfs.cnf /etc/mysql/conf.d/mysql-tmpfs.cnf
+RUN chmod 664 /etc/mysql/conf.d/mysql-tmpfs.cnf
 
 ENTRYPOINT [ "/run.sh" ]
 

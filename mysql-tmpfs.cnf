@@ -14,3 +14,5 @@ innodb_file_format = Barracuda
 innodb_log_file_size = 2M
 innodb_large_prefix
 innodb_support_xa = 0
+
+datadir	= /dev/shm/mysql

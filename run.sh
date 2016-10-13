@@ -1,7 +1,6 @@
 #!/bin/bash
 echo "setting up tmpfs mysql server, creating test database"
 mysql_install_db --datadir /dev/shm/mysql
-mkdir /var/lib/mysql && mount --bind /dev/shm/mysql /var/lib/mysql
 /etc/init.d/mysql start
 mysql -e "CREATE DATABASE test"
 
