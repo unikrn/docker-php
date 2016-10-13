@@ -1,10 +1,9 @@
 #!/bin/bash
-echo "setting up tmpfs mysql server, creating test database"
-mysql_install_db --datadir /dev/shm/mysql 1>/dev/null 2>/dev/null
-if [ $? -ne 0 ]; then
-    echo "db init failed"
-    cat /var/log/mysql/error.log
-fi
+echo "starting tmpfs mysql server, creating test database"
+mkdir /dev/shm/mysql/
+cp -R /var/lib/mysql/* /dev/shm/mysql/
+chown mysql:mysql -R /dev/shm/mysql/
+
 /etc/init.d/mysql start 1>/dev/null 2>/dev/null
 if [ $? -ne 0 ]; then
     echo "db start failed"
