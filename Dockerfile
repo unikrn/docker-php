@@ -18,6 +18,11 @@ RUN echo deb http://httpredir.debian.org/debian stable main contrib >/etc/apt/so
         nodejs \
         libgmp-dev \
         redis-server redis-tools \
+    && curl -fsSL https://dev.mysql.com/get/mysql-apt-config_0.7.3-1_all.deb -o /tmp/mysql.deb \
+    && DEBIAN_FRONTEND=noninteractive MYSQL_SERVER_VERSION=mysql-5.6 dpkg -i /tmp/mysql.deb \
+    && rm /tmp/mysql.deb\
+    && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-community-server \
+    && rm -r /var/lib/mysql \
     && ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
     && docker-php-ext-install -j$(nproc) iconv mcrypt \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
@@ -47,6 +52,9 @@ RUN pecl install xdebug && docker-php-ext-enable xdebug \
 RUN pecl install geoip && docker-php-ext-enable geoip \
     && echo "<?php var_dump(geoip_record_by_name('141.30.225.1')); " | php  | grep Dresden -cq || (echo "Geo not working" && exit 1) \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+ADD mysql-tmpfs.cnf /etc/mysql/conf.d/mysql-tmpfs
+RUN chmod 664 /etc/mysql/conf.d/mysql-tmpfs
 
 COPY *.sh /
 RUN chmod u+rwx /*.sh

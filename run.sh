@@ -1,4 +1,10 @@
 #!/bin/bash
+echo "setting up tmpfs mysql server, creating test database"
+mysql_install_db --datadir /dev/shm/mysql
+mkdir /var/lib/mysql && mount --bind /dev/shm/mysql /var/lib/mysql
+/etc/init.d/mysql start
+mysql -e "CREATE DATABASE test"
+
 #http://unix.stackexchange.com/questions/55558/how-can-i-kill-and-wait-for-background-processes-to-finish-in-a-shell-script-whe
 custom()
 {
