@@ -13,3 +13,4 @@ mysql -e "CREATE DATABASE test"
 #for some reason the config entry is ignored, workaround
 mysql -e 'set global sql_mode=NO_ENGINE_SUBSTITUTION'
 
+/etc/init.d/redis-server start
