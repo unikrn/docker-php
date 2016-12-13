@@ -18,6 +18,7 @@ RUN echo deb http://httpredir.debian.org/debian stable main contrib >/etc/apt/so
         geoip-bin geoip-database-contrib \
         nodejs \
         libgmp-dev \
+        git\
         redis-server redis-tools \
     && curl -fsSL https://dev.mysql.com/get/mysql-apt-config_0.7.3-1_all.deb -o /tmp/mysql.deb \
     && DEBIAN_FRONTEND=noninteractive MYSQL_SERVER_VERSION=mysql-5.6 dpkg -i /tmp/mysql.deb \
