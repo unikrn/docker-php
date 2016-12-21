@@ -33,13 +33,13 @@ RUN echo deb http://httpredir.debian.org/debian stable main contrib >/etc/apt/so
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN pecl install apcu apcu_bc-beta && docker-php-ext-enable apc \
+RUN pecl install apcu apcu_bc-beta && docker-php-ext-enable apcu  && docker-php-ext-enable apc \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN pecl install xdebug && docker-php-ext-enable xdebug \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-RUN pecl install geoip && docker-php-ext-enable geoip \
+RUN pecl install geoip-beta && docker-php-ext-enable geoip \
     && echo "<?php var_dump(geoip_record_by_name('141.30.225.1')); " | php  | grep Dresden -cq || (echo "Geo not working" && exit 1) \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -56,6 +56,9 @@ RUN locale-gen && /usr/sbin/update-locale LANG=en_US.UTF-8
 ENV LANG en_US.UTF-8
 ENV LANGUAGE en_US.UTF-8
 ENV LC_ALL en_US.UTF-8
+
+
+RUN mv /usr/local/etc/php/conf.d/docker-php-ext-apc.ini /usr/local/etc/php/conf.d/zz-docker-php-ext-apc.ini
 
 VOLUME /var/lib/redis
 
