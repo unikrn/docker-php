@@ -48,6 +48,9 @@ RUN curl -fsSL 'https://xcache.lighttpd.net/pub/Releases/3.2.0/xcache-3.2.0.tar.
     && rm -r xcache \
     && docker-php-ext-enable xcache
 
+RUN pecl install apcu_bc-beta && docker-php-ext-enable apc \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 RUN pecl install xdebug && docker-php-ext-enable xdebug \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
