@@ -27,13 +27,13 @@ RUN echo deb http://httpredir.debian.org/debian stable main contrib >/etc/apt/so
     && ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
     && docker-php-ext-install -j$(nproc) iconv mcrypt \
     && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
-    && docker-php-ext-install -j$(nproc) apcu gd pdo pdo_mysql mysqli bcmath mbstring zip gmp \
+    && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mysqli bcmath mbstring zip gmp \
     && DEBIAN_FRONTEND=noninteractive MYSQL_SERVER_VERSION=mysql-5.6 apt-get upgrade -y\
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-RUN pecl install apcu_bc-beta && docker-php-ext-enable apc \
+RUN pecl install apcu apcu_bc-beta && docker-php-ext-enable apc \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN pecl install xdebug && docker-php-ext-enable xdebug \
