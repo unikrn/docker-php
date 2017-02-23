@@ -4,6 +4,7 @@ ENV TERM=xterm
 
 RUN echo deb http://httpredir.debian.org/debian stable main contrib >/etc/apt/sources.list \
     && echo deb http://security.debian.org/ stable/updates main contrib >>/etc/apt/sources.list \
+    && apt-key adv --keyserver pgp.mit.edu --recv-keys A4A9406876FCBD3C456770C88C718D3B5072E1F5 \
     && curl -sL https://deb.nodesource.com/setup_4.x | bash - \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         libfreetype6-dev \
