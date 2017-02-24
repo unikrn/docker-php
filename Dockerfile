@@ -4,7 +4,6 @@ ENV TERM=xterm
 
 RUN echo deb http://httpredir.debian.org/debian stable main contrib >/etc/apt/sources.list \
     && echo deb http://security.debian.org/ stable/updates main contrib >>/etc/apt/sources.list \
-    && apt-key adv --keyserver pgp.mit.edu --recv-keys A4A9406876FCBD3C456770C88C718D3B5072E1F5 \
     && curl -sL https://deb.nodesource.com/setup_4.x | bash - \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         libfreetype6-dev \
@@ -21,7 +20,7 @@ RUN echo deb http://httpredir.debian.org/debian stable main contrib >/etc/apt/so
         libgmp-dev \
         git\
         redis-server redis-tools \
-    && curl -fsSL https://dev.mysql.com/get/mysql-apt-config_0.7.3-1_all.deb -o /tmp/mysql.deb \
+    && curl -fsSL https://dev.mysql.com/get/mysql-apt-config_0.8.2-1_all.deb -o /tmp/mysql.deb \
     && DEBIAN_FRONTEND=noninteractive MYSQL_SERVER_VERSION=mysql-5.6 dpkg -i /tmp/mysql.deb \
     && rm /tmp/mysql.deb\
     && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-community-server \
