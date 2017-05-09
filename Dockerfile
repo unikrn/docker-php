@@ -10,6 +10,7 @@ RUN echo deb http://httpredir.debian.org/debian stable main contrib >/etc/apt/so
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         libpng12-dev \
+        libmagickwand-dev libmagickcore-dev \
         zlib1g-dev \
         libgeoip-dev \
         python \
