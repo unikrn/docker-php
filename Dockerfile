@@ -43,6 +43,9 @@ RUN pecl install geoip-beta && docker-php-ext-enable geoip \
     && echo "<?php var_dump(geoip_record_by_name('141.30.225.1')); " | php  | grep Dresden -cq || (echo "Geo not working" && exit 1) \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
+RUN pecl install imagick && docker-php-ext-enable imagick \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
 COPY *.sh /
 RUN chmod u+rwx /*.sh
 
