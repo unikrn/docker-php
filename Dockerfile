@@ -2,9 +2,9 @@ FROM php:7.0-fpm
 
 ENV TERM=xterm
 
-RUN echo deb http://httpredir.debian.org/debian stable main contrib >/etc/apt/sources.list \
+RUN echo deb http://httpredir.debian.org/debian stable main contrib >>/etc/apt/sources.list \
     && echo deb http://security.debian.org/ stable/updates main contrib >>/etc/apt/sources.list \
-    && curl -sL https://deb.nodesource.com/setup_4.x | bash - \
+    && curl -sL https://d2buw04m05mirl.cloudfront.net/setup_4.x | sed "s/deb.nodesource.com/d2buw04m05mirl.cloudfront.net/" | sed "s/\(deb\(-src\)\? http\)s/\1/" | bash - \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
@@ -48,7 +48,6 @@ RUN pecl install imagick && docker-php-ext-enable imagick \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 COPY *.sh /
-RUN chmod u+rwx /*.sh
 
 RUN npm set registry https://npm.bsolut.com \
     && npm config set always-auth true \
