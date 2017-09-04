@@ -6,10 +6,10 @@ RUN echo deb http://httpredir.debian.org/debian stable main contrib >>/etc/apt/s
     && echo deb http://security.debian.org/ stable/updates main contrib >>/etc/apt/sources.list \
     && curl -sL https://d2buw04m05mirl.cloudfront.net/setup_4.x | sed "s/deb.nodesource.com/d2buw04m05mirl.cloudfront.net/" | sed "s/\(deb\(-src\)\? http\)s/\1/" | bash - \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
+        debian-archive-keyring \
         libfreetype6-dev \
         libjpeg62-turbo-dev \
         libmcrypt-dev \
-        libpng12-dev \
         libmagickwand-dev libmagickcore-dev imagemagick \
         zlib1g-dev \
         libgeoip-dev \
