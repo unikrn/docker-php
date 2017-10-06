@@ -1,0 +1,13 @@
+- type: parallel
+  name: example_parallel_step
+  steps:
+    - service: php
+      command: printenv
+    - service: php
+      command: ls
+    - service: php
+      command: php -v
+- name: example_tagged_step
+  tag: master
+  service: php
+  command: echo "Deploy here!"
