@@ -8,7 +8,7 @@
 ### XDEBUG Forward
 ```
 docker run -d -p 9001:9001 -p 9000:9000 unikrn/php
-npm install -g tcprelayc
+npm install -g node-tcp-relay
 tcprelayc --host localhost --port 9000 --relayHost localhost --relayPort 9001 --numConn 10 
 ```
 
