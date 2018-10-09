@@ -12,5 +12,6 @@ fi
 mysql -e "CREATE DATABASE test"
 #for some reason the config entry is ignored, workaround
 mysql -e 'set global sql_mode=NO_ENGINE_SUBSTITUTION'
-
+mysql -e "update mysql.user set authentication_string=password(''), plugin='mysql_native_password' where user='root'"
+mysql -e "flush privileges"
 /etc/init.d/redis-server start
