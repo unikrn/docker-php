@@ -45,8 +45,8 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 RUN pecl install apcu apcu_bc-beta && docker-php-ext-enable apcu  && docker-php-ext-enable apc \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-#RUN pecl install xdebug && docker-php-ext-enable xdebug \
-#    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN pecl install xdebug-beta && docker-php-ext-enable xdebug \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 RUN pecl install geoip-beta && docker-php-ext-enable geoip \
     && echo "<?php var_dump(geoip_record_by_name('141.30.225.1')); " | php  | grep Dresden -cq || (echo "Geo not working" && exit 1) \
