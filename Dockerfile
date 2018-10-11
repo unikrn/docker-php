@@ -5,8 +5,9 @@ ENV TERM=xterm
 #Possible values for ext-name:
 #bcmath bz2 calendar ctype curl dba dom enchant exif fileinfo filter ftp gd gettext gmp hash iconv imap interbase intl json ldap mbstring mysqli oci8 odbc opcache pcntl pdo pdo_dblib pdo_firebird pdo_mysql pdo_oci pdo_odbc pdo_pgsql pdo_sqlite pgsql phar posix pspell readline recode reflection session shmop simplexml snmp soap sockets sodium spl standard sysvmsg sysvsem sysvshm tidy tokenizer wddx xml xmlreader xmlrpc xmlwriter xsl zend_test zip
 
+RUN DEBIAN_FRONTEND=noninteractive apt-get update && apt-get install -y wget gnupg iputils-ping iproute2 curl
 RUN echo deb http://httpredir.debian.org/debian stable main contrib >>/etc/apt/sources.list \
-    && echo deb http://security.debian.org/ stable/updates main contrib >>/etc/apt/sources.list \
+    && echo deb http://security.debian.org/ stable/updates main contrib >>/etc/apt/sources.list \
     && apt-get update &&  DEBIAN_FRONTEND=noninteractive apt-get install -y gnupg \
     && curl -sL https://d2buw04m05mirl.cloudfront.net/setup_8.x | sed "s/deb.nodesource.com/d2buw04m05mirl.cloudfront.net/" | sed "s/\(deb\(-src\)\? http\)s/\1/" | bash - \
     && DEBIAN_FRONTEND=noninteractive apt-get install -y \
@@ -27,7 +28,7 @@ RUN echo deb http://httpredir.debian.org/debian stable main contrib >>/etc/apt/s
         git\
         redis-server redis-tools
 
-RUN curl -fsSL https://dev.mysql.com/get/mysql-apt-config_0.8.2-1_all.deb -o /tmp/mysql.deb \
+RUN curl -fsSL https://dev.mysql.com/get/mysql-apt-config_0.8.3-1_all.deb -o /tmp/mysql.deb \
     && DEBIAN_FRONTEND=noninteractive MYSQL_SERVER_VERSION=mysql-5.7 dpkg -i /tmp/mysql.deb \
     && rm /tmp/mysql.deb\
     && apt-get update && DEBIAN_FRONTEND=noninteractive apt-get install -y mysql-community-server
