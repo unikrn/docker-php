@@ -28,6 +28,7 @@ RUN echo deb http://httpredir.debian.org/debian stable main contrib >>/etc/apt/s
         libgmp-dev \
         git\
         redis-server redis-tools \
+        procps nano mc\
     && apt-key adv --keyserver keys.gnupg.net --recv-keys 8C718D3B5072E1F5 \
     && curl -fsSL https://dev.mysql.com/get/mysql-apt-config_0.8.3-1_all.deb -o /tmp/mysql.deb \
     && dpkg -i /tmp/mysql.deb \
@@ -62,7 +63,7 @@ RUN pecl install imagick && docker-php-ext-enable imagick \
 COPY *.sh /
 COPY .npmrc /root
 
-RUN npm install pm2 
+RUN npm install pm2 -g
 
 RUN echo -e "de_DE.UTF-8 UTF-8\nde_DE ISO-8859-1\nde_DE@euro ISO-8859-15\nen_US.UTF-8 UTF-8" >> /etc/locale.gen
 RUN locale-gen && /usr/sbin/update-locale LANG=en_US.UTF-8
