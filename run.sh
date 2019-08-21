@@ -13,7 +13,7 @@ fi
 custom()
 {
     run 'php-fpm'
-    run 'php' '-S' '0.0.0.0:9002' '-t' '/var/www/htdocs/'
+    #run 'php' '-S' '0.0.0.0:9002' '-t' '/var/www/htdocs/'
     func()
     {
         local i=0
