@@ -1,4 +1,4 @@
-FROM php:7.3-fpm
+FROM php:7.4-fpm
 
 ENV TERM=xterm
 ENV DEBIAN_FRONTEND noninteractive
@@ -35,8 +35,14 @@ RUN echo deb http://httpredir.debian.org/debian stable main contrib >>/etc/apt/s
     && rm /tmp/mysql.deb\
     && apt-get update && apt-get install -y mysql-community-server \
     && ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
+    && mkdir -p /tmp/oniguruma \
+    && cd /tmp/oniguruma \
+    && curl -Ls https://github.com/kkos/oniguruma/releases/download/v6.9.4/onig-6.9.4.tar.gz | tar xzC /tmp/oniguruma --strip-components=1 \
+    && ./configure --prefix=/usr/local \
+    && make -j $(nproc) \
+    && make install \
     && docker-php-ext-install -j$(nproc) iconv \
-    && docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/ \
+    && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mysqli bcmath mbstring zip gmp soap intl\
     && apt-get upgrade -y\
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
