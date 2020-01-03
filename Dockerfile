@@ -23,7 +23,7 @@ RUN echo deb http://httpredir.debian.org/debian stable main contrib >>/etc/apt/s
         libjpeg62-turbo-dev \
         libmcrypt-dev \
         zlib1g-dev \
-        libzip-dev \
+        libzip-dev libbz2-dev \
         libgeoip-dev \
         expect-dev \
         libgmp-dev \
