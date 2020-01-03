@@ -9,6 +9,8 @@
 ### Run 
 ```
 docker run -p 9000:9000 -v /Users/xxxx/php:/var/www/html yyyyyyy
+
+run  with --cap-add SYS_PTRACE for phpspy
 ```
 
 ### Cheat Sheet
@@ -16,7 +18,10 @@ docker run -p 9000:9000 -v /Users/xxxx/php:/var/www/html yyyyyyy
 - tag `docker tag xxx  unikrn/php`
 - `docker run -it --entrypoint "/bin/bash" unikrn/php` 
 - `docker push unikrn/php`
+- watch sudo ps -f -g`ps -ef | awk '/\/bin\/sh/{print $2}'` 
+- docker run --rm -it --entrypoint=/bin/bash b0172b56c46a 
+- docker run --rm -it --entrypoint=/bin/bash `docker images | awk '{print $3}' | awk 'NR==2'`
 
 ### Credits
 - https://github.com/theasci/docker-mysql-tmpfs
-
+- https://git.software-sl.de/Docker/Docker-Development/blob/master/Dockerfiles/Php/Dockerfile
