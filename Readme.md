@@ -4,6 +4,9 @@
 - running plain redis on default ports and with default config
 - Help https://github.com/wsargent/docker-cheat-sheet
 - a mysql tmpfs server to run unit tests against it without io issues
+- smaller image - https://www.dropbox.com/s/noro58qlp7ng3by/screenshot_2020-01-04-02%3A06.png?dl=0
+-- saves around 100MB
+-- no build environment anymore (advantage (?))
 
 
 ### Run 
@@ -26,3 +29,4 @@ run  with --cap-add SYS_PTRACE for phpspy
 ### Credits
 - https://github.com/theasci/docker-mysql-tmpfs
 - https://git.software-sl.de/Docker/Docker-Development/blob/master/Dockerfiles/Php/Dockerfile
+- https://github.com/wagoodman/dive

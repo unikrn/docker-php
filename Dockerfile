@@ -123,7 +123,7 @@ RUN apt-get update && apt-get install -y wget gnupg iputils-ping iproute2 curl \
     && apt-get remove "*-dev*" binutils cpp libbinutils x11-common  binutils-common cpp-8 libcairo-gobject2 libcairo-script-interpreter2 libcc1-0 libcroco3 -y --purge \
     && if [ "${INSTALL_PROFILER}" = "true" ]; then \
         TMP_ORIG_PATH=$(pwd) && \
-        cd /usr/bin/ && rm mysql_embedded "myisam*" mysqlslap mysqladmin mysqlpump && \
+        cd /usr/bin/ && rm mysql_embedded myisam* mysqlslap mysqladmin mysqlpump && \
         rm /usr/sbin/mysqld-debug && \
         cd "$TMP_ORIG_PATH" && \
         echo "binaries cleaned"; \
