@@ -42,11 +42,13 @@ RUN echo deb http://httpredir.debian.org/debian stable main contrib >>/etc/apt/s
         && apt-get update && apt-get install -y mysql-community-server \
     && ln -s /usr/include/x86_64-linux-gnu/gmp.h /usr/include/gmp.h \
     && mkdir -p /tmp/oniguruma \
+        && TMP_ORIG_PATH=$(pwd) \
         && cd /tmp/oniguruma \
         && curl -Ls https://unikrn-tools.s3-accelerate.amazonaws.com/docker/onig-6.9.4.tar.gz | tar xzC /tmp/oniguruma --strip-components=1 \
         && ./configure --prefix=/usr/local \
         && make -j $(nproc) \
         && make install \
+        && cd "$TMP_ORIG_PATH" \
     && docker-php-ext-install -j$(nproc) iconv \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mysqli bcmath mbstring bz2 zip gmp soap intl sodium sysvmsg sysvsem sysvshm ffi posix opcache shmop \
