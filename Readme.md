@@ -17,10 +17,11 @@ run  with --cap-add SYS_PTRACE for phpspy
 - build locally `docker build -t unikrn/php .`
 - tag `docker tag xxx  unikrn/php`
 - `docker run -it --entrypoint "/bin/bash" unikrn/php` 
-- `docker push unikrn/php`
+- `docker push unikrn/phppoppler-data`
 - watch sudo ps -f -g`ps -ef | awk '/\/bin\/sh/{print $2}'` 
 - docker run --rm -it --entrypoint=/bin/bash b0172b56c46a 
-- docker run --rm -it --entrypoint=/bin/bash `docker images | awk '{print $3}' | awk 'NR==2'`
+- docker run --rm -it --cap-add SYS_PTRACE --entrypoint=/bin/bash `docker images | awk '{print $3}' | awk 'NR==2'`
+- docker tag `docker images | awk '{print $3}' | awk 'NR==2'`  unikrn/php:php74
 
 ### Credits
 - https://github.com/theasci/docker-mysql-tmpfs
