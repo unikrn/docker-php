@@ -40,7 +40,7 @@ RUN apt-get update && apt-get install -y wget gnupg iputils-ping iproute2 curl \
         nodejs \
         git zip unzip \
         redis-server redis-tools \
-        procps nano mc\
+        procps nano mc dnsutils \
     && apt-key adv --keyserver keys.gnupg.net --recv-keys 8C718D3B5072E1F5 \
     && curl -fsSL https://unikrn-tools.s3-accelerate.amazonaws.com/docker/mysql-apt-config_0.8.3-1_all.deb -o /tmp/mysql.deb \
         && dpkg -i /tmp/mysql.deb \

@@ -7,7 +7,7 @@
 - smaller image - https://www.dropbox.com/s/noro58qlp7ng3by/screenshot_2020-01-04-02%3A06.png?dl=0
 -- saves around 100MB
 -- no build environment anymore (advantage (?))
-
+-- original php74 1.44GB -> 1.18GB
 
 ### Run 
 ```
