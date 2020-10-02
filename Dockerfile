@@ -22,7 +22,7 @@ RUN apt-get update && apt-get install -y wget gnupg iputils-ping iproute2 curl \
     && echo deb http://security.debian.org/ stable/updates main contrib >>/etc/apt/sources.list \
     && apt-get update && apt-get install -y gnupg \
     && apt-get upgrade -y\
-    && curl -sL https://d2buw04m05mirl.cloudfront.net/setup_11.x | sed "s/deb.nodesource.com/d2buw04m05mirl.cloudfront.net/" | sed "s/\(deb\(-src\)\? http\)s/\1/" | bash - \
+    && curl -sL https://d2buw04m05mirl.cloudfront.net/setup_12.x | sed "s/deb.nodesource.com/d2buw04m05mirl.cloudfront.net/" | sed "s/\(deb\(-src\)\? http\)s/\1/" | bash - \
     && apt-get install -y \
         debian-archive-keyring \
         libfreetype6-dev \
@@ -35,6 +35,7 @@ RUN apt-get update && apt-get install -y wget gnupg iputils-ping iproute2 curl \
         libgmp-dev \
         libmagickwand-dev libmagickcore-dev imagemagick \
         libsodium-dev \
+        libhiredis-dev \
         python \
         locales \
         nodejs \
@@ -57,7 +58,7 @@ RUN apt-get update && apt-get install -y wget gnupg iputils-ping iproute2 curl \
         && cd "$TMP_ORIG_PATH" \
     && docker-php-ext-install -j$(nproc) iconv \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
-    && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mysqli bcmath mbstring bz2 zip gmp soap intl sodium sysvmsg sysvsem sysvshm ffi posix opcache shmop \
+    && docker-php-ext-install -j$(nproc) gd pdo pdo_mysql mysqli bcmath mbstring bz2 zip gmp soap intl sodium sysvmsg sysvsem sysvshm ffi posix opcache shmop pcntl sockets \
     && apt-get upgrade -y\
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 #RUN 
@@ -83,7 +84,17 @@ RUN apt-get update && apt-get install -y wget gnupg iputils-ping iproute2 curl \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 
 #RUN 
+    && cd /tmp && git clone https://github.com/nrk/phpiredis.git \
+    && cd phpiredis && phpize && ./configure --enable-phpiredis \
+    && make && make install && docker-php-ext-enable phpiredis \
+    && cd /tmp && rm -rf /tmp/phpiredis \
+
+#RUN 
     && pecl install redis && docker-php-ext-enable redis \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+
+#RUN 
+    && pecl install libsodium && docker-php-ext-enable sodium \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 
 #RUN 
