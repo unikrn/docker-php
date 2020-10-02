@@ -78,45 +78,45 @@ RUN apt-get update && apt-get install -y wget gnupg iputils-ping iproute2 curl \
     rm -rf /tmp/* /var/tmp/* && \
     composer --ansi --version --no-interaction && \
     composer global require hirak/prestissimo \
-
+#
 #RUN 
     && pecl install uuid && docker-php-ext-enable uuid \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-
+#
 #RUN 
     && cd /tmp && git clone https://github.com/nrk/phpiredis.git \
     && cd phpiredis && phpize && ./configure --enable-phpiredis \
     && make && make install && docker-php-ext-enable phpiredis \
     && cd /tmp && rm -rf /tmp/phpiredis \
-
+#
 #RUN 
     && pecl install redis && docker-php-ext-enable redis \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-
+#
 #RUN 
     && pecl install libsodium && docker-php-ext-enable sodium \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-
+#
 #RUN 
     && pecl install apcu apcu_bc-beta && docker-php-ext-enable apcu  && docker-php-ext-enable apc \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && mv /usr/local/etc/php/conf.d/docker-php-ext-apc.ini /usr/local/etc/php/conf.d/zz-docker-php-ext-apc.ini \
-
+#
 #RUN 
     && pecl install xdebug-beta && docker-php-ext-enable xdebug \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-
+#
 #RUN 
     && rm -rf /usr/share/GeoIP && ln -s /var/lib/geoip-database-contrib /usr/share/GeoIP \
     && update-alternatives --install /usr/share/GeoIP/GeoIPCity.dat GeoIPCity.dat /usr/share/GeoIP/GeoLiteCity.dat 50 \
     && pecl install geoip-beta && docker-php-ext-enable geoip \
     && echo "<?php var_dump(geoip_record_by_name('141.30.225.1')); " | php  | grep Dresden -cq || (echo "Geo not working" && exit 1) \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-
+#
 #RUN 
     && pecl install imagick && docker-php-ext-enable imagick \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-
+#
 #RUN 
     && if [ "${INSTALL_PROFILER}" = "true" ]; then \
         # install profiler
