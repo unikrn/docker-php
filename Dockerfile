@@ -105,10 +105,6 @@ RUN echo hi2\
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 #
 #RUN 
-#    INCLUDED in 8 - ignore && pecl install libsodium-beta && docker-php-ext-enable sodium \
-#    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
-#
-#RUN 
     && pecl install apcu && pecl install apcu_bc && docker-php-ext-enable apcu  && docker-php-ext-enable apc \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && mv /usr/local/etc/php/conf.d/docker-php-ext-apc.ini /usr/local/etc/php/conf.d/zz-docker-php-ext-apc.ini \
