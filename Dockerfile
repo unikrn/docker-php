@@ -1,4 +1,4 @@
-FROM php:7.4-fpm
+FROM php:8.0-rc-fpm
 
 ENV TERM=xterm
 ENV DEBIAN_FRONTEND noninteractive
@@ -78,6 +78,13 @@ RUN apt-get update && apt-get install -y wget gnupg iputils-ping iproute2 curl \
     rm -rf /tmp/* /var/tmp/* && \
     composer --ansi --version --no-interaction && \
     composer global require hirak/prestissimo \
+    && echo hi
+#
+#TODO make it one build again - better todo like this until 8 is stable
+RUN echo hi  \
+#   waiting on version-override= for xdebug
+    && wget -q https://github.com/FriendsOfPHP/pickle/releases/download/v0.6.0/pickle.phar && mv pickle.phar /usr/local/bin/pickle && chmod +x /usr/local/bin/pickle \
+    && ln -s /usr/local/bin/pickle /usr/local/bin/pecl \
 #
 #RUN 
     && pecl install uuid && docker-php-ext-enable uuid \
@@ -86,35 +93,47 @@ RUN apt-get update && apt-get install -y wget gnupg iputils-ping iproute2 curl \
 #RUN 
     && cd /tmp && git clone https://github.com/nrk/phpiredis.git \
     && cd phpiredis && phpize && ./configure --enable-phpiredis \
-    && make && make install && docker-php-ext-enable phpiredis \
-    && cd /tmp && rm -rf /tmp/phpiredis \
+    && make -j$(nproc) && make install && docker-php-ext-enable phpiredis \
+    && cd /tmp && rm -rf /tmp/phpiredis 
 #
-#RUN 
-    && pecl install redis && docker-php-ext-enable redis \
+RUN echo hi2\
+#   && pecl install redis && docker-php-ext-enable redis \
+    && cd /tmp && git clone https://github.com/phpredis/phpredis.git \
+    && cd phpredis && phpize && ./configure \
+    && make -j$(nproc) && make install && docker-php-ext-enable redis \
+    && cd /tmp && rm -rf /tmp/phpredis \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 #
 #RUN 
-    && pecl install libsodium && docker-php-ext-enable sodium \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+#    INCLUDED in 8 - ignore && pecl install libsodium-beta && docker-php-ext-enable sodium \
+#    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 #
 #RUN 
-    && pecl install apcu apcu_bc-beta && docker-php-ext-enable apcu  && docker-php-ext-enable apc \
+    && pecl install apcu && pecl install apcu_bc && docker-php-ext-enable apcu  && docker-php-ext-enable apc \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
     && mv /usr/local/etc/php/conf.d/docker-php-ext-apc.ini /usr/local/etc/php/conf.d/zz-docker-php-ext-apc.ini \
 #
 #RUN 
-    && pecl install xdebug-beta && docker-php-ext-enable xdebug \
+#    && pickle install --version-override=3.0.0-dev git://github.com/xdebug/xdebug.git && docker-php-ext-enable xdebug \
+    && cd /tmp && git clone https://github.com/xdebug/xdebug.git \
+    && cd xdebug && phpize && ./configure \
+    && make -j$(nproc) && make install && docker-php-ext-enable xdebug \
+    && cd /tmp && rm -rf /tmp/xdebug \ 
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 #
 #RUN 
     && rm -rf /usr/share/GeoIP && ln -s /var/lib/geoip-database-contrib /usr/share/GeoIP \
     && update-alternatives --install /usr/share/GeoIP/GeoIPCity.dat GeoIPCity.dat /usr/share/GeoIP/GeoLiteCity.dat 50 \
-    && pecl install geoip-beta && docker-php-ext-enable geoip \
-    && echo "<?php var_dump(geoip_record_by_name('141.30.225.1')); " | php  | grep Dresden -cq || (echo "Geo not working" && exit 1) \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
+#TODO    && pecl install geoip-beta && docker-php-ext-enable geoip \
+#TODO    && echo "<?php var_dump(geoip_record_by_name('141.30.225.1')); " | php  | grep Dresden -cq || (echo "Geo not working" && exit 1) \
+#TODO    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 #
 #RUN 
-    && pecl install imagick && docker-php-ext-enable imagick \
+#    && pickle install https://github.com/Imagick/imagick.git && docker-php-ext-enable imagick \
+    && cd /tmp && git clone https://github.com/Imagick/imagick.git \
+    && cd imagick && phpize && ./configure \
+    && make -j$(nproc) && make install && docker-php-ext-enable imagick \
+    && cd /tmp && rm -rf /tmp/imagick \ 
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/* \
 #
 #RUN 
