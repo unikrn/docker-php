@@ -76,8 +76,8 @@ RUN apt-get update && apt-get install -y wget gnupg iputils-ping iproute2 curl \
     fi && \
     php /tmp/composer-setup.php --no-ansi --install-dir=/usr/bin --filename=composer && \
     rm -rf /tmp/* /var/tmp/* && \
-    composer --ansi --version --no-interaction && \
-    composer global require hirak/prestissimo \
+    composer --ansi --version --no-interaction
+#composer 2.x -> not needed    composer global require hirak/prestissimo \
 #
 #RUN 
     && pecl install uuid && docker-php-ext-enable uuid \
