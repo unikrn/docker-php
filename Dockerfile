@@ -1,4 +1,4 @@
-FROM php:8.0.0RC5-fpm
+FROM php:8.0-fpm
 
 ENV TERM=xterm
 ENV DEBIAN_FRONTEND noninteractive
